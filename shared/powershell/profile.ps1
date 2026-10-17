@@ -36,6 +36,9 @@ if (Test-Cmd eza) {
 
 # --- Prompt & tools ----------------------------------------------------------
 if (Test-Cmd starship) { Invoke-Expression (& starship init powershell --print-full-init | Out-String) }
+# mise: shims work in both PS 5.1 and 7 (mise activate only supports pwsh 7)
+$miseShims = Join-Path $env:LOCALAPPDATA 'mise\shims'
+if ((Test-Path $miseShims) -and ($env:Path -notlike "*$miseShims*")) { $env:Path = "$miseShims;$env:Path" }
 if (Test-Cmd zoxide) { Invoke-Expression (& { (zoxide init powershell | Out-String) }) }
 
 # --- Local, uncommitted overrides (API keys, AWS_PROFILE, proxies...) --------

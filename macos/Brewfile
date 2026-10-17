@@ -5,6 +5,8 @@
 brew "git"
 brew "gh"
 brew "uv"
+brew "mise"
+brew "tmux"
 brew "node"
 brew "pnpm"
 brew "just"

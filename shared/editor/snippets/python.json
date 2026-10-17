@@ -1,0 +1,32 @@
+{
+    "Main guard": {
+        "prefix": "main",
+        "body": ["def main() -> None:", "    ${1:pass}", "", "", "if __name__ == \"__main__\":", "    main()", ""],
+        "description": "if __name__ == '__main__'"
+    },
+    "Module logger": {
+        "prefix": "logger",
+        "body": ["import logging", "", "logger = logging.getLogger(__name__)", ""],
+        "description": "Module-level logger"
+    },
+    "Pytest test": {
+        "prefix": "test",
+        "body": ["def test_${1:name}() -> None:", "    ${2:assert True}", ""],
+        "description": "pytest test function"
+    },
+    "Pytest fixture": {
+        "prefix": "fixture",
+        "body": ["@pytest.fixture", "def ${1:name}():", "    ${2:return None}", ""],
+        "description": "pytest fixture"
+    },
+    "Dataclass": {
+        "prefix": "dc",
+        "body": ["@dataclass(frozen=True, slots=True)", "class ${1:Name}:", "    ${2:field}: ${3:str}", ""],
+        "description": "Frozen dataclass"
+    },
+    "Breakpoint": {
+        "prefix": "bp",
+        "body": ["breakpoint()"],
+        "description": "Debugger breakpoint"
+    }
+}

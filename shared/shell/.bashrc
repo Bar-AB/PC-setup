@@ -15,6 +15,7 @@ case "$(uname -s)" in MINGW*|MSYS*) export PATH="$HOME/.local/bin:$PATH" ;; esac
 command -v starship >/dev/null && eval "$(starship init bash)"
 command -v zoxide   >/dev/null && eval "$(zoxide init bash)"
 command -v direnv   >/dev/null && eval "$(direnv hook bash)"
+command -v mise     >/dev/null && eval "$(mise activate bash)"
 command -v fzf      >/dev/null && eval "$(fzf --bash 2>/dev/null)"
 
 [ -f "$HOME/.bashrc.local" ] && . "$HOME/.bashrc.local"

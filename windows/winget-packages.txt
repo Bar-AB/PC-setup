@@ -9,6 +9,7 @@ GitHub.cli
 Microsoft.PowerShell
 Microsoft.WindowsTerminal
 astral-sh.uv
+jdx.mise
 Python.Python.3.12
 OpenJS.NodeJS.LTS
 pnpm.pnpm

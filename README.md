@@ -45,13 +45,17 @@ bash linux/install.sh
 | `shared/git/.gitignore_global` | `~/.gitignore_global` | |
 | `shared/git/*.example` | `~/.gitconfig.local`, `~/work/.gitconfig` | name/email live only on the machine |
 | `shared/shell/.bashrc`, `.zshrc`, `aliases.sh` | `~/` and `~/.config/shell/` | Git Bash, WSL, macOS |
+| `shared/shell/.zprofile`, `.tmux.conf` | `~/` | macOS / WSL only |
+| `shared/mise/config.toml` | `~/.config/mise/config.toml` | global node/python versions (projects: `mise.toml` / `.tool-versions`) |
 | `shared/shell/starship.toml` | `~/.config/starship.toml` | same prompt everywhere, shows AWS profile |
 | `shared/powershell/profile.ps1` | `$PROFILE` (PS 5.1 + 7) | handles OneDrive-redirected Documents |
 | `shared/editor/settings.json`, `keybindings.json` | Cursor **and** VS Code user dir | ruff format-on-save |
+| `shared/editor/snippets/` | editor `snippets/` | python + React starters |
 | `shared/editor/extensions*.txt` | `cursor/code --install-extension` | common + Cursor-only + VS Code-only |
 | `shared/claude/` | `~/.claude/` | global CLAUDE.md, settings (plugins, deny rules, notify hooks), keybindings, output styles |
 | `shared/claude/project-template/` | copy into a work repo | `.mcp.json` (Postgres restricted, AWS read-only, docs) + guard hook |
 | `shared/pg/.psqlrc` | `~/.psqlrc` / `%APPDATA%\postgresql\psqlrc.conf` | |
+| `shared/pg/pgcli.config` | `~/.config/pgcli/config` / `%LOCALAPPDATA%\dbcli\pgcli\config` | `destructive_warning = all` |
 | `shared/ssh/config.example` | `~/.ssh/config` (only if missing) | **no keys, no company hosts** |
 
 Scripts:

@@ -19,10 +19,11 @@ $Repo = Split-Path -Parent $PSScriptRoot
 $Shared = Join-Path $Repo 'shared'
 $HomeDir = $env:USERPROFILE
 $AppData = $env:APPDATA
+$LocalAppData = $env:LOCALAPPDATA
 # Documents may be redirected to OneDrive on company machines - ask Windows where it really is.
 $Docs = [Environment]::GetFolderPath('MyDocuments')
 if ($Root) {
-    $HomeDir = $Root; $AppData = Join-Path $Root 'AppData\Roaming'; $Docs = Join-Path $Root 'Documents'
+    $HomeDir = $Root; $AppData = Join-Path $Root 'AppData\Roaming'; $LocalAppData = Join-Path $Root 'AppData\Local'; $Docs = Join-Path $Root 'Documents'
 }
 $Stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 $Utf8NoBom = New-Object System.Text.UTF8Encoding $false
@@ -83,6 +84,7 @@ Write-Step 'shell (Git Bash + PowerShell + starship)'
 Install-File (Join-Path $Shared 'shell\.bashrc') (Join-Path $HomeDir '.bashrc')
 Install-File (Join-Path $Shared 'shell\aliases.sh') (Join-Path $HomeDir '.config\shell\aliases.sh')
 Install-File (Join-Path $Shared 'shell\starship.toml') (Join-Path $HomeDir '.config\starship.toml')
+Install-File (Join-Path $Shared 'mise\config.toml') (Join-Path $HomeDir '.config\mise\config.toml')
 # Git Bash only reads .bashrc via .bash_profile
 $bashProfile = Join-Path $HomeDir '.bash_profile'
 if (-not (Test-Path $bashProfile)) {
@@ -141,8 +143,9 @@ Install-File $tmp (Join-Path $claude 'settings.json')
 Remove-Item $tmp -ErrorAction SilentlyContinue
 
 # --- Postgres / SSH --------------------------------------------------------------
-Write-Step 'psql + ssh'
+Write-Step 'psql + pgcli + ssh'
 Install-File (Join-Path $Shared 'pg\.psqlrc') (Join-Path $AppData 'postgresql\psqlrc.conf')
+Install-File (Join-Path $Shared 'pg\pgcli.config') (Join-Path $LocalAppData 'dbcli\pgcli\config')
 Install-IfMissing (Join-Path $Shared 'ssh\config.example') (Join-Path $HomeDir '.ssh\config')
 
 Write-Host "`nDone. Backups (if any) are next to the originals as *.bak-$Stamp" -ForegroundColor Green

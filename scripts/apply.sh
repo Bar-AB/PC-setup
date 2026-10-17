@@ -41,9 +41,12 @@ fi
 
 step shell
 put "$S/shell/.zshrc" "$H/.zshrc"
+put "$S/shell/.zprofile" "$H/.zprofile"
+put "$S/shell/.tmux.conf" "$H/.tmux.conf"
 put "$S/shell/.bashrc" "$H/.bashrc"
 put "$S/shell/aliases.sh" "$H/.config/shell/aliases.sh"
 put "$S/shell/starship.toml" "$H/.config/starship.toml"
+put "$S/mise/config.toml" "$H/.config/mise/config.toml"
 
 step editors
 case "$(uname -s)" in
@@ -89,8 +92,9 @@ PY
 fi
 put "$tmp" "$C/settings.json"; rm -f "$tmp"
 
-step "psql + ssh"
+step "psql + pgcli + ssh"
 put "$S/pg/.psqlrc" "$H/.psqlrc"
+put "$S/pg/pgcli.config" "$H/.config/pgcli/config"
 put_if_missing "$S/ssh/config.example" "$H/.ssh/config"
 chmod 700 "$H/.ssh" 2>/dev/null; chmod 600 "$H/.ssh/config" 2>/dev/null
 

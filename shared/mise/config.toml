@@ -1,0 +1,9 @@
+# Global tool versions (mise.jdx.dev). Installed to ~/.config/mise/config.toml.
+# Per-project versions go in the repo's own mise.toml / .tool-versions (mise reads both).
+# Python projects: uv manages venvs + python per project; this is just the default interpreter.
+[tools]
+node = "lts"
+python = "3.12"
+
+[settings]
+idiomatic_version_file_enable_tools = ["node", "python"]   # also honor .nvmrc / .python-version

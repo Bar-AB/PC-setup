@@ -23,6 +23,7 @@ uv tool update-shell || true
 command -v graphify >/dev/null && graphify claude install || true
 
 bash "$REPO/scripts/apply.sh"
+mise install || true   # node/python from ~/.config/mise/config.toml
 git -C "$REPO" config core.hooksPath .githooks
 
 cat <<'EOF'

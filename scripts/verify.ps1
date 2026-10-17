@@ -1,6 +1,6 @@
 # Quick "did everything install?" check. Keep ASCII-only.
 $checks = [ordered]@{
-    git = 'git --version'; gh = 'gh --version'; uv = 'uv --version'; python = 'python --version'
+    git = 'git --version'; gh = 'gh --version'; uv = 'uv --version'; mise = 'mise --version'; python = 'python --version'
     node = 'node --version'; pnpm = 'pnpm --version'; claude = 'claude --version'
     cursor = 'cursor --version'; code = 'code --version'; aws = 'aws --version'; psql = 'psql --version'
     jq = 'jq --version'; rg = 'rg --version'; fd = 'fd --version'; fzf = 'fzf --version'; bat = 'bat --version'

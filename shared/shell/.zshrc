@@ -24,6 +24,7 @@ fi
 command -v starship >/dev/null && eval "$(starship init zsh)"
 command -v zoxide   >/dev/null && eval "$(zoxide init zsh)"
 command -v direnv   >/dev/null && eval "$(direnv hook zsh)"
+command -v mise     >/dev/null && eval "$(mise activate zsh)"
 command -v fzf      >/dev/null && source <(fzf --zsh 2>/dev/null)
 
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"

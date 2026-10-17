@@ -7,7 +7,7 @@ REPO="$(cd "$(dirname "$0")/.." && pwd)"
 echo "==> apt packages"
 sudo apt-get update
 sudo apt-get install -y \
-  zsh git curl unzip build-essential jq ripgrep fd-find bat fzf direnv \
+  zsh tmux git curl unzip build-essential jq ripgrep fd-find bat fzf direnv \
   python3-venv pipx postgresql-client pgcli universal-ctags
 mkdir -p "$HOME/.local/bin"
 # Ubuntu renames these binaries
@@ -19,6 +19,7 @@ echo "==> uv, starship, zoxide (official installers, user-local)"
 command -v uv >/dev/null       || curl -LsSf https://astral.sh/uv/install.sh | sh
 command -v starship >/dev/null || curl -sS https://starship.rs/install.sh | sh -s -- -y -b "$HOME/.local/bin"
 command -v zoxide >/dev/null   || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+command -v mise >/dev/null     || curl -fsSL https://mise.run | sh
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
 echo "==> GitHub CLI"
@@ -43,7 +44,7 @@ bash "$REPO/scripts/apply.sh"
 cat <<'EOF'
 
 Not installed here on purpose:
-  - Node: use `curl -fsSL https://fnm.vercel.app/install | bash` then `fnm install --lts`
+  - Node/Python versions: `mise install` (reads ~/.config/mise/config.toml)
   - Docker: Docker Desktop's WSL integration, or Docker Engine (docs.docker.com/engine/install/ubuntu)
   - granted (AWS SSO helper): see docs.commonfate.io/granted/getting-started
 EOF
