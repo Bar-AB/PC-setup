@@ -83,10 +83,11 @@ if (-not (Test-Path $localGit)) {
 if (-not $Root -and -not (git config --get credential.helper)) { git config --file $localGit credential.helper manager }
 
 # --- Shells ----------------------------------------------------------------------
-Write-Step 'shell (Git Bash + PowerShell + starship + mise)'
+Write-Step 'shell (Git Bash + PowerShell + oh-my-posh + mise)'
 Install-File (Join-Path $Shared 'shell\.bashrc') (Join-Path $HomeDir '.bashrc')
 Install-File (Join-Path $Shared 'shell\aliases.sh') (Join-Path $HomeDir '.config\shell\aliases.sh') -Managed
 Install-File (Join-Path $Shared 'shell\starship.toml') (Join-Path $HomeDir '.config\starship.toml') -Managed
+Install-File (Join-Path $Shared 'oh-my-posh\agnoster.omp.json') (Join-Path $HomeDir '.config\oh-my-posh\agnoster.omp.json') -Managed
 Install-File (Join-Path $Shared 'mise\config.toml') (Join-Path $HomeDir '.config\mise\config.toml')
 # Git Bash only reads .bashrc via .bash_profile
 $bashProfile = Join-Path $HomeDir '.bash_profile'

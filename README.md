@@ -47,7 +47,8 @@ bash linux/install.sh
 | `shared/shell/.bashrc`, `.zshrc`, `aliases.sh` | `~/` and `~/.config/shell/` | Git Bash, WSL, macOS |
 | `shared/shell/.zprofile`, `.tmux.conf` | `~/` | macOS / WSL only |
 | `shared/mise/config.toml` | `~/.config/mise/config.toml` | global node/python versions (projects: `mise.toml` / `.tool-versions`) |
-| `shared/shell/starship.toml` | `~/.config/starship.toml` | same prompt everywhere, shows AWS profile |
+| `shared/oh-my-posh/agnoster.omp.json` | `~/.config/oh-my-posh/` | **Windows prompt** (PowerShell + Git Bash), agnoster theme |
+| `shared/shell/starship.toml` | `~/.config/starship.toml` | prompt on macOS / WSL (and fallback if oh-my-posh is missing) |
 | `shared/powershell/profile.ps1` | `$PROFILE` (PS 5.1 + 7) | handles OneDrive-redirected Documents |
 | `shared/editor/settings.json`, `keybindings.json` | Cursor **and** VS Code user dir | ruff format-on-save |
 | `shared/editor/snippets/` | editor `snippets/` | python + React starters |
@@ -89,7 +90,7 @@ clobbered by re-running `apply`. `-Force` / `FORCE=1` overwrites seeds (with a `
 
 | Managed (always synced from repo) | Seed (written once, then the machine owns it) |
 |---|---|
-| `aliases.sh`, `starship.toml`, Claude `output-styles/`, Claude `hooks/*.ps1` | `.gitconfig`, `.gitignore_global`, shell rc files, PowerShell profile, editor settings/keybindings/snippets, mise, psql, pgcli, `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.claude/keybindings.json` |
+| `aliases.sh`, `starship.toml`, oh-my-posh theme, Claude `output-styles/`, Claude `hooks/*.ps1` | `.gitconfig`, `.gitignore_global`, shell rc files, PowerShell profile, editor settings/keybindings/snippets, mise, psql, pgcli, `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.claude/keybindings.json` |
 | | `~/.ssh/config` — template only, never overwritten even with `-Force` |
 
 Claude Code specifically:

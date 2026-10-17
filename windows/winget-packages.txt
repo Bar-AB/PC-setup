@@ -28,7 +28,7 @@ sharkdp.bat
 junegunn.fzf
 eza-community.eza
 ajeetdsouza.zoxide
-Starship.Starship
+JanDeDobbeleer.OhMyPosh
 direnv.direnv
 JesseDuffield.lazygit
 Casey.Just

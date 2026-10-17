@@ -17,6 +17,7 @@ $map = @(
     @{ From = "$env:APPDATA\Cursor\User\keybindings.json"; To = 'editor\keybindings.json' },
     @{ From = "$H\.claude\keybindings.json"; To = 'claude\keybindings.json' },
     @{ From = "$H\.config\starship.toml"; To = 'shell\starship.toml' },
+    @{ From = "$H\.config\oh-my-posh\agnoster.omp.json"; To = 'oh-my-posh\agnoster.omp.json' },
     @{ From = "$H\.config\mise\config.toml"; To = 'mise\config.toml' },
     @{ From = "$env:LOCALAPPDATA\dbcli\pgcli\config"; To = 'pg\pgcli.config' },
     @{ From = "$Docs\PowerShell\Microsoft.PowerShell_profile.ps1"; To = 'powershell\profile.ps1' }

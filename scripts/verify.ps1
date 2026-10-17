@@ -4,7 +4,7 @@ $checks = [ordered]@{
     node = 'node --version'; pnpm = 'pnpm --version'; claude = 'claude --version'
     cursor = 'cursor --version'; code = 'code --version'; aws = 'aws --version'; psql = 'psql --version'
     jq = 'jq --version'; rg = 'rg --version'; fd = 'fd --version'; fzf = 'fzf --version'; bat = 'bat --version'
-    eza = 'eza --version'; zoxide = 'zoxide --version'; starship = 'starship --version'; lazygit = 'lazygit --version'
+    eza = 'eza --version'; zoxide = 'zoxide --version'; ohmyposh = 'oh-my-posh version'; lazygit = 'lazygit --version'
     just = 'just --version'; gitleaks = 'gitleaks version'; docker = 'docker --version'; graphify = 'graphify --help'
 }
 foreach ($name in $checks.Keys) {

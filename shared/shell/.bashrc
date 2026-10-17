@@ -12,7 +12,12 @@ case "$(uname -s)" in MINGW*|MSYS*) export PATH="$HOME/.local/bin:$PATH" ;; esac
 
 [ -f "$HOME/.config/shell/aliases.sh" ] && . "$HOME/.config/shell/aliases.sh"
 
-command -v starship >/dev/null && eval "$(starship init bash)"
+omp_theme="$HOME/.config/oh-my-posh/agnoster.omp.json"
+if command -v oh-my-posh >/dev/null && [ -f "$omp_theme" ]; then
+  eval "$(oh-my-posh init bash --config "$omp_theme")"
+elif command -v starship >/dev/null; then
+  eval "$(starship init bash)"
+fi
 command -v zoxide   >/dev/null && eval "$(zoxide init bash)"
 command -v direnv   >/dev/null && eval "$(direnv hook bash)"
 command -v mise     >/dev/null && eval "$(mise activate bash)"

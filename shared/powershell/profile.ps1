@@ -35,7 +35,12 @@ if (Test-Cmd eza) {
 }
 
 # --- Prompt & tools ----------------------------------------------------------
-if (Test-Cmd starship) { Invoke-Expression (& starship init powershell --print-full-init | Out-String) }
+$ompTheme = Join-Path $HOME '.config\oh-my-posh\agnoster.omp.json'
+if ((Test-Cmd oh-my-posh) -and (Test-Path $ompTheme)) {
+    oh-my-posh init pwsh --config $ompTheme | Invoke-Expression
+} elseif (Test-Cmd starship) {
+    Invoke-Expression (& starship init powershell --print-full-init | Out-String)
+}
 # mise: shims work in both PS 5.1 and 7 (mise activate only supports pwsh 7)
 $miseShims = Join-Path $env:LOCALAPPDATA 'mise\shims'
 if ((Test-Path $miseShims) -and ($env:Path -notlike "*$miseShims*")) { $env:Path = "$miseShims;$env:Path" }
