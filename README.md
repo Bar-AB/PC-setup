@@ -52,7 +52,7 @@ bash linux/install.sh
 | `shared/editor/settings.json`, `keybindings.json` | Cursor **and** VS Code user dir | ruff format-on-save |
 | `shared/editor/snippets/` | editor `snippets/` | python + React starters |
 | `shared/editor/extensions*.txt` | `cursor/code --install-extension` | common + Cursor-only + VS Code-only |
-| `shared/claude/` | `~/.claude/` | **generic** CLAUDE.md seed, settings seed (deny rules + notify hooks), keybindings, output styles (ELI5) |
+| `shared/claude/` | `~/.claude/` | **generic** CLAUDE.md seed, settings seed (ELI5 default style, deny rules, notify hooks), keybindings, output styles (ELI5) |
 | `shared/claude/settings.personal-plugins.json` | merged into settings only with `-PersonalPlugins` | my home plugins (cc10x, codex, claude-code-mods), model, theme |
 | `shared/claude/project-template/` | copy into a work repo | `.mcp.json` (Postgres restricted, AWS read-only, docs) + guard hook |
 | `shared/pg/.psqlrc` | `~/.psqlrc` / `%APPDATA%\postgresql\psqlrc.conf` | |
@@ -95,7 +95,7 @@ clobbered by re-running `apply`. `-Force` / `FORCE=1` overwrites seeds (with a `
 Claude Code specifically:
 - `CLAUDE.md` seed holds only generic rules (no secrets, ask before push/prod). Company and project conventions belong in each work repo's own `CLAUDE.md`. Tools like `graphify claude install` add their own sections.
 - Home plugins/model/theme are **opt-in** (`-PersonalPlugins`) — check the company's AI-tool policy first.
-- Output style **ELI5** is installed but not active: pick it with `/output-style` (or add `"outputStyle": "ELI5"` to settings).
+- Output style **ELI5** is installed and set as the default (`"outputStyle": "ELI5"` in the settings seed). Switch per session with `/output-style`.
 - `capture.ps1` never copies `CLAUDE.md`, `settings.json`, `commands/` or `agents/` back into the repo.
 
 ## Claude Code per-project guardrails
