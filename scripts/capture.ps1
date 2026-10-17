@@ -2,6 +2,8 @@
 .SYNOPSIS
   The reverse of apply.ps1: copies configs you changed on THIS machine back into the repo,
   then scans them so nothing secret gets committed. Review `git diff` before committing!
+  Only GENERIC files are captured. ~/.claude/CLAUDE.md, settings.json, commands/ and agents/
+  are never captured: on a work machine they hold company conventions that must not leave it.
   Keep ASCII-only.
 #>
 $ErrorActionPreference = 'Continue'
@@ -13,7 +15,6 @@ $Docs = [Environment]::GetFolderPath('MyDocuments')
 $map = @(
     @{ From = "$env:APPDATA\Cursor\User\settings.json"; To = 'editor\settings.json' },
     @{ From = "$env:APPDATA\Cursor\User\keybindings.json"; To = 'editor\keybindings.json' },
-    @{ From = "$H\.claude\CLAUDE.md"; To = 'claude\CLAUDE.md' },
     @{ From = "$H\.claude\keybindings.json"; To = 'claude\keybindings.json' },
     @{ From = "$H\.config\starship.toml"; To = 'shell\starship.toml' },
     @{ From = "$H\.config\mise\config.toml"; To = 'mise\config.toml' },
@@ -23,7 +24,7 @@ $map = @(
 foreach ($m in $map) {
     if (Test-Path $m.From) { Copy-Item $m.From (Join-Path $Shared $m.To) -Force; Write-Host "  captured $($m.To)" }
 }
-foreach ($d in 'output-styles', 'commands', 'agents') {
+foreach ($d in 'output-styles') {
     $src = "$H\.claude\$d"
     if (Test-Path $src) { Copy-Item $src (Join-Path $Shared "claude") -Recurse -Force; Write-Host "  captured claude\$d" }
 }
@@ -36,8 +37,8 @@ if (Get-Command cursor -ErrorAction SilentlyContinue) {
     cursor --list-extensions --show-versions | Add-Content $snap
     Write-Host '  captured editor\extensions.snapshot.txt'
 }
-# NOTE: ~/.claude/settings.json is NOT captured on purpose: it collects machine paths and
-# project-specific autoMode text. Edit shared\claude\settings.base.json by hand instead.
+# NOT captured on purpose: ~/.claude/CLAUDE.md, settings.json, commands/, agents/ (machine/company
+# specific). To share a generic rule across machines, add it to shared\claude\CLAUDE.md by hand.
 
 Write-Host "`n==> Looking for things that should not be committed" -ForegroundColor Cyan
 $suspicious = 'password|passwd|secret|token|api[_-]?key|connections"|BEGIN .*PRIVATE KEY|\b10\.\d+\.\d+\.\d+\b|\b192\.168\.|amazonaws\.com|arn:aws'

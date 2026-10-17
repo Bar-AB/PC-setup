@@ -9,6 +9,7 @@
   .\windows\install.ps1 -All       # also optional packages (Docker, DBeaver, Bruno, Ollama)
   .\windows\install.ps1 -WithWSL   # also install WSL + Ubuntu (needs a reboot)
   .\windows\install.ps1 -SkipPackages   # only re-apply configs
+  .\windows\install.ps1 -PersonalPlugins  # + my home Claude plugins (cc10x, codex, mods)
 
   Keep this file ASCII-only (Windows PowerShell 5.1 reads BOM-less files as ANSI).
 #>
@@ -18,7 +19,9 @@ param(
     [switch]$WithWSL,
     [switch]$SkipPackages,
     [switch]$SkipTools,
-    [switch]$SkipExtensions
+    [switch]$SkipExtensions,
+    [switch]$PersonalPlugins,   # enable my home Claude plugins (check company AI policy first)
+    [switch]$Force              # overwrite seed configs that already exist (with backup)
 )
 
 # 'Continue' on purpose: in PS 5.1, 'Stop' turns any stderr line from a native exe (winget, uv) into a crash.
@@ -79,7 +82,7 @@ if (-not $SkipTools) {
 
 # --- 4. Configs ------------------------------------------------------------------
 Write-Step 'Applying configs'
-& (Join-Path $Repo 'scripts\apply.ps1') -SkipExtensions:$SkipExtensions
+& (Join-Path $Repo 'scripts\apply.ps1') -SkipExtensions:$SkipExtensions -PersonalPlugins:$PersonalPlugins -Force:$Force
 
 # --- 5. Repo safety: gitleaks pre-commit hook for THIS repo -----------------------
 git -C $Repo config core.hooksPath .githooks

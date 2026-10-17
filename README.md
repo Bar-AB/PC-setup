@@ -52,14 +52,15 @@ bash linux/install.sh
 | `shared/editor/settings.json`, `keybindings.json` | Cursor **and** VS Code user dir | ruff format-on-save |
 | `shared/editor/snippets/` | editor `snippets/` | python + React starters |
 | `shared/editor/extensions*.txt` | `cursor/code --install-extension` | common + Cursor-only + VS Code-only |
-| `shared/claude/` | `~/.claude/` | global CLAUDE.md, settings (plugins, deny rules, notify hooks), keybindings, output styles |
+| `shared/claude/` | `~/.claude/` | **generic** CLAUDE.md seed, settings seed (deny rules + notify hooks), keybindings, output styles (ELI5) |
+| `shared/claude/settings.personal-plugins.json` | merged into settings only with `-PersonalPlugins` | my home plugins (cc10x, codex, claude-code-mods), model, theme |
 | `shared/claude/project-template/` | copy into a work repo | `.mcp.json` (Postgres restricted, AWS read-only, docs) + guard hook |
 | `shared/pg/.psqlrc` | `~/.psqlrc` / `%APPDATA%\postgresql\psqlrc.conf` | |
 | `shared/pg/pgcli.config` | `~/.config/pgcli/config` / `%LOCALAPPDATA%\dbcli\pgcli\config` | `destructive_warning = all` |
 | `shared/ssh/config.example` | `~/.ssh/config` (only if missing) | **no keys, no company hosts** |
 
 Scripts:
-- `scripts/apply.ps1` / `scripts/apply.sh` — copy configs into place. Backs up anything it overwrites as `*.bak-<timestamp>`. Idempotent. Try it safely with `-Root <dir>` / `ROOT=<dir>`.
+- `scripts/apply.ps1` / `scripts/apply.sh` — copy configs into place (see *Seed vs. managed* below). Idempotent. Try it safely with `-Root <dir>` / `ROOT=<dir>`.
 - `scripts/capture.ps1` — the reverse: pull changes you made on the machine back into the repo, then warn about anything that looks secret + run gitleaks. **Review `git diff` before committing.**
 - `scripts/verify.ps1` — what's installed / missing.
 
@@ -79,6 +80,23 @@ Leak protection:
 - `.gitignore` blocks the usual secret filenames.
 - `.githooks/pre-commit` runs **gitleaks** on every commit (enabled by the install scripts via `git config core.hooksPath .githooks`; enable manually after a fresh clone if you skip them).
 - Before the first push: `gitleaks git .` and `gitleaks dir .`.
+
+## Seed vs. managed — the repo is a starting point, not a mirror
+
+Most files are **seeds**: `apply` writes them only when they don't exist yet. From then on the machine's copy
+wins — work conventions, Claude `/config` changes, editor UI tweaks and tools appending to `.bashrc` are never
+clobbered by re-running `apply`. `-Force` / `FORCE=1` overwrites seeds (with a `*.bak-<timestamp>` backup).
+
+| Managed (always synced from repo) | Seed (written once, then the machine owns it) |
+|---|---|
+| `aliases.sh`, `starship.toml`, Claude `output-styles/`, Claude `hooks/*.ps1` | `.gitconfig`, `.gitignore_global`, shell rc files, PowerShell profile, editor settings/keybindings/snippets, mise, psql, pgcli, `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.claude/keybindings.json` |
+| | `~/.ssh/config` — template only, never overwritten even with `-Force` |
+
+Claude Code specifically:
+- `CLAUDE.md` seed holds only generic rules (no secrets, ask before push/prod). Company and project conventions belong in each work repo's own `CLAUDE.md`. Tools like `graphify claude install` add their own sections.
+- Home plugins/model/theme are **opt-in** (`-PersonalPlugins`) — check the company's AI-tool policy first.
+- Output style **ELI5** is installed but not active: pick it with `/output-style` (or add `"outputStyle": "ELI5"` to settings).
+- `capture.ps1` never copies `CLAUDE.md`, `settings.json`, `commands/` or `agents/` back into the repo.
 
 ## Claude Code per-project guardrails
 

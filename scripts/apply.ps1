@@ -1,18 +1,25 @@
 <#
 .SYNOPSIS
   Copies the configs from this repo into their real locations on Windows.
-  Existing files that differ are backed up to <file>.bak-<timestamp> first. Safe to re-run.
+
+  Two kinds of files:
+    SEED    (default) - written only if the file does not exist yet. After that the file belongs
+                        to the machine (work conventions, Claude /config, editor UI changes...) and
+                        re-running apply never touches it. -Force overwrites (with a backup).
+    MANAGED           - repo-owned files nobody else edits (aliases, prompt, output styles,
+                        hook scripts). Always updated; a differing file is backed up first.
 
 .EXAMPLE
-  .\scripts\apply.ps1
-  .\scripts\apply.ps1 -SkipExtensions
-  .\scripts\apply.ps1 -WhatIf          # show what would change
+  .\scripts\apply.ps1                     # seed a new machine / pick up managed updates
+  .\scripts\apply.ps1 -PersonalPlugins    # also enable my home Claude plugins (cc10x, codex, mods)
+  .\scripts\apply.ps1 -Force              # overwrite seeds too (backups as *.bak-<timestamp>)
+  .\scripts\apply.ps1 -WhatIf             # show what would change
   .\scripts\apply.ps1 -Root C:\tmp\sandbox -SkipExtensions   # trial run into a fake home dir
 
   Keep this file ASCII-only (Windows PowerShell 5.1 reads BOM-less files as ANSI).
 #>
 [CmdletBinding(SupportsShouldProcess)]
-param([switch]$SkipExtensions, [string]$Root)
+param([switch]$SkipExtensions, [switch]$Force, [switch]$PersonalPlugins, [string]$Root)
 
 $ErrorActionPreference = 'Continue'
 $Repo = Split-Path -Parent $PSScriptRoot
@@ -30,12 +37,13 @@ $Utf8NoBom = New-Object System.Text.UTF8Encoding $false
 
 function Write-Step($msg) { Write-Host "`n==> $msg" -ForegroundColor Cyan }
 
-function Install-File([string]$Src, [string]$Dst) {
+function Install-File([string]$Src, [string]$Dst, [switch]$Managed) {
     if (-not (Test-Path $Src)) { Write-Warning "missing in repo: $Src"; return }
     $dir = Split-Path -Parent $Dst
     if (-not (Test-Path $dir)) { New-Item -ItemType Directory -Force $dir | Out-Null }
     if (Test-Path $Dst) {
         if ((Get-FileHash $Src).Hash -eq (Get-FileHash $Dst).Hash) { Write-Host "  same     $Dst"; return }
+        if (-not ($Managed -or $Force)) { Write-Host "  kept     $Dst (machine copy wins)"; return }
         if ($PSCmdlet.ShouldProcess($Dst, 'backup')) { Copy-Item $Dst "$Dst.bak-$Stamp" -Force }
     }
     if ($PSCmdlet.ShouldProcess($Dst, "copy from $Src")) {
@@ -44,16 +52,11 @@ function Install-File([string]$Src, [string]$Dst) {
     }
 }
 
-function Install-IfMissing([string]$Src, [string]$Dst) {
-    if (Test-Path $Dst) { Write-Host "  kept     $Dst (exists, not overwritten)"; return }
-    Install-File $Src $Dst
-}
-
-function Install-Dir([string]$SrcDir, [string]$DstDir) {
+function Install-Dir([string]$SrcDir, [string]$DstDir, [switch]$Managed) {
     if (-not (Test-Path $SrcDir)) { return }
     Get-ChildItem $SrcDir -Recurse -File | ForEach-Object {
         $rel = $_.FullName.Substring($SrcDir.Length).TrimStart('\')
-        Install-File $_.FullName (Join-Path $DstDir $rel)
+        Install-File $_.FullName (Join-Path $DstDir $rel) -Managed:$Managed
     }
 }
 
@@ -80,10 +83,10 @@ if (-not (Test-Path $localGit)) {
 if (-not $Root -and -not (git config --get credential.helper)) { git config --file $localGit credential.helper manager }
 
 # --- Shells ----------------------------------------------------------------------
-Write-Step 'shell (Git Bash + PowerShell + starship)'
+Write-Step 'shell (Git Bash + PowerShell + starship + mise)'
 Install-File (Join-Path $Shared 'shell\.bashrc') (Join-Path $HomeDir '.bashrc')
-Install-File (Join-Path $Shared 'shell\aliases.sh') (Join-Path $HomeDir '.config\shell\aliases.sh')
-Install-File (Join-Path $Shared 'shell\starship.toml') (Join-Path $HomeDir '.config\starship.toml')
+Install-File (Join-Path $Shared 'shell\aliases.sh') (Join-Path $HomeDir '.config\shell\aliases.sh') -Managed
+Install-File (Join-Path $Shared 'shell\starship.toml') (Join-Path $HomeDir '.config\starship.toml') -Managed
 Install-File (Join-Path $Shared 'mise\config.toml') (Join-Path $HomeDir '.config\mise\config.toml')
 # Git Bash only reads .bashrc via .bash_profile
 $bashProfile = Join-Path $HomeDir '.bash_profile'
@@ -91,7 +94,6 @@ if (-not (Test-Path $bashProfile)) {
     [IO.File]::WriteAllText($bashProfile, "[ -f ~/.bashrc ] && . ~/.bashrc`n", $Utf8NoBom)
     Write-Host "  created  $bashProfile"
 }
-
 foreach ($sub in 'PowerShell', 'WindowsPowerShell') {
     Install-File (Join-Path $Shared 'powershell\profile.ps1') (Join-Path $Docs "$sub\Microsoft.PowerShell_profile.ps1")
 }
@@ -125,20 +127,22 @@ foreach ($e in $editors) {
 }
 
 # --- Claude Code -----------------------------------------------------------------
+# CLAUDE.md / settings.json / keybindings are SEEDS: generic starting point only, the work
+# machine's copies evolve on their own and are never captured back into this repo.
 Write-Step 'Claude Code (~/.claude)'
 $claude = Join-Path $HomeDir '.claude'
 Install-File (Join-Path $Shared 'claude\CLAUDE.md') (Join-Path $claude 'CLAUDE.md')
 Install-File (Join-Path $Shared 'claude\keybindings.json') (Join-Path $claude 'keybindings.json')
-Install-Dir (Join-Path $Shared 'claude\output-styles') (Join-Path $claude 'output-styles')
-Install-Dir (Join-Path $Shared 'claude\hooks') (Join-Path $claude 'hooks')
-Install-Dir (Join-Path $Shared 'claude\commands') (Join-Path $claude 'commands')
-Install-Dir (Join-Path $Shared 'claude\agents') (Join-Path $claude 'agents')
+Install-Dir (Join-Path $Shared 'claude\output-styles') (Join-Path $claude 'output-styles') -Managed
+Install-Dir (Join-Path $Shared 'claude\hooks') (Join-Path $claude 'hooks') -Managed
 
-$base = Get-Content -Raw (Join-Path $Shared 'claude\settings.base.json') | ConvertFrom-Json
-$hooks = Get-Content -Raw (Join-Path $Shared 'claude\settings.windows-hooks.json') | ConvertFrom-Json
-$merged = (Merge-Json $base $hooks) | ConvertTo-Json -Depth 32
+$merged = Merge-Json (Get-Content -Raw (Join-Path $Shared 'claude\settings.base.json') | ConvertFrom-Json) `
+                     (Get-Content -Raw (Join-Path $Shared 'claude\settings.windows-hooks.json') | ConvertFrom-Json)
+if ($PersonalPlugins) {
+    $merged = Merge-Json $merged (Get-Content -Raw (Join-Path $Shared 'claude\settings.personal-plugins.json') | ConvertFrom-Json)
+}
 $tmp = Join-Path $env:TEMP "claude-settings-$Stamp.json"
-[IO.File]::WriteAllText($tmp, $merged, $Utf8NoBom)
+[IO.File]::WriteAllText($tmp, ($merged | ConvertTo-Json -Depth 32), $Utf8NoBom)
 Install-File $tmp (Join-Path $claude 'settings.json')
 Remove-Item $tmp -ErrorAction SilentlyContinue
 
@@ -146,6 +150,8 @@ Remove-Item $tmp -ErrorAction SilentlyContinue
 Write-Step 'psql + pgcli + ssh'
 Install-File (Join-Path $Shared 'pg\.psqlrc') (Join-Path $AppData 'postgresql\psqlrc.conf')
 Install-File (Join-Path $Shared 'pg\pgcli.config') (Join-Path $LocalAppData 'dbcli\pgcli\config')
-Install-IfMissing (Join-Path $Shared 'ssh\config.example') (Join-Path $HomeDir '.ssh\config')
+# ssh: template only, never overwritten (not even with -Force) - real hosts live only on the machine
+$sshConfig = Join-Path $HomeDir '.ssh\config'
+if (Test-Path $sshConfig) { Write-Host "  kept     $sshConfig" } else { Install-File (Join-Path $Shared 'ssh\config.example') $sshConfig }
 
-Write-Host "`nDone. Backups (if any) are next to the originals as *.bak-$Stamp" -ForegroundColor Green
+Write-Host "`nDone. 'kept' = the machine's copy differs from the repo and was left alone (use -Force to overwrite)." -ForegroundColor Green

@@ -1,0 +1,24 @@
+{
+  "model": "opus",
+  "theme": "dark",
+  "enabledPlugins": {
+    "codex@openai-codex": true,
+    "cc10x@cc10x": true,
+    "blast-radius@claude-code-mods": true,
+    "context-bar@claude-code-mods": true,
+    "where-am-i@claude-code-mods": true,
+    "agent-radar@claude-code-mods": true,
+    "usage-meter@claude-code-mods": true
+  },
+  "extraKnownMarketplaces": {
+    "openai-codex": {
+      "source": { "source": "github", "repo": "openai/codex-plugin-cc" }
+    },
+    "cc10x": {
+      "source": { "source": "github", "repo": "romiluz13/cc10x" }
+    },
+    "claude-code-mods": {
+      "source": { "source": "github", "repo": "hamzafer/claude-code-mods" }
+    }
+  }
+}
