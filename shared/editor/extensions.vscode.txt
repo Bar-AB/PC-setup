@@ -1,0 +1,6 @@
+# VS Code-only extensions (Microsoft Marketplace). Installed on top of extensions.txt.
+ms-python.vscode-pylance
+ms-ossdata.vscode-pgsql
+ms-vscode-remote.remote-containers
+ms-vscode-remote.remote-ssh
+ms-vscode-remote.remote-wsl

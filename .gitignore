@@ -1,0 +1,33 @@
+# This repo must never contain secrets or machine-local overrides.
+# (gitleaks pre-commit hook in .githooks/ is the second line of defense)
+
+# Local override files that the configs load but that are never committed
+*.local
+*.local.*
+profile.local.ps1
+.gitconfig.local
+
+# Credentials / keys / tokens
+.env
+.env.*
+!*.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+id_ecdsa*
+.pgpass
+.npmrc
+.netrc
+.claude.json
+hosts.yml
+credentials
+.aws/
+.mcp.json
+
+# Backups made by apply scripts / OS noise
+*.bak-*
+.DS_Store
+Thumbs.db

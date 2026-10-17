@@ -1,0 +1,16 @@
+-- ~/.psqlrc  (on Windows psql reads %APPDATA%\postgresql\psqlrc.conf - scripts/apply handles that)
+\set QUIET 1
+\pset null '(null)'
+\pset linestyle unicode
+\pset border 2
+\x auto
+\timing on
+\set ON_ERROR_ROLLBACK interactive
+\set COMP_KEYWORD_CASE upper
+\set HISTCONTROL ignoredups
+\set HISTSIZE 10000
+-- Extra safety on shared DBs: uncomment so every statement needs an explicit COMMIT.
+-- (Scripts run with `psql -X` skip this file.)
+-- \set AUTOCOMMIT off
+\set PROMPT1 '%[%033[1;32m%]%n@%M%[%033[0m%]/%/ %R%x%# '
+\set QUIET 0

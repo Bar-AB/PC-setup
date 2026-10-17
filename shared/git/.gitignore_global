@@ -1,0 +1,33 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/*.log
+
+# Secrets that should never end up in ANY repo by accident
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+.pgpass
+.envrc.local
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+
+# Node
+node_modules/
+
+# Agent tooling scratch
+.cc10x/
+graphify-out/
+.tags

@@ -1,0 +1,44 @@
+# brew bundle --file=macos/Brewfile
+# Regenerate from a machine you like:  brew bundle dump --file=macos/Brewfile --force
+
+# Core
+brew "git"
+brew "gh"
+brew "uv"
+brew "node"
+brew "pnpm"
+brew "just"
+brew "pre-commit"
+brew "gitleaks"
+
+# CLI quality of life
+brew "jq"
+brew "yq"
+brew "ripgrep"
+brew "fd"
+brew "bat"
+brew "fzf"
+brew "eza"
+brew "zoxide"
+brew "starship"
+brew "direnv"
+brew "lazygit"
+brew "httpie"
+brew "universal-ctags"
+
+# Cloud / data
+brew "awscli"
+brew "postgresql@16"
+brew "pgcli"
+tap "common-fate/granted"
+brew "common-fate/granted/granted"
+
+# Apps  (Docker Desktop needs a company license - ask IT; fallback: brew "colima" + brew "docker")
+cask "cursor"
+cask "visual-studio-code"
+cask "iterm2"
+cask "font-jetbrains-mono-nerd-font"
+cask "claude-code"
+cask "docker-desktop"
+cask "bruno"
+cask "ollama-app"

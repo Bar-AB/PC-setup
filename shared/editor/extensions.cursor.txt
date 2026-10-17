@@ -1,0 +1,7 @@
+# Cursor-only extensions (Open VSX forks of Microsoft extensions). Installed on top of extensions.txt.
+# Snapshot of what was installed on the previous machine (2026-10).
+anysphere.cursorpyright
+anysphere.remote-containers
+anysphere.remote-ssh
+anysphere.remote-wsl
+microsoft.cursor-pgsql

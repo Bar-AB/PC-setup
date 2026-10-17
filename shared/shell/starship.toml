@@ -1,0 +1,30 @@
+# ~/.config/starship.toml - same prompt in PowerShell, Git Bash, zsh.
+add_newline = false
+command_timeout = 1000
+
+format = "$directory$git_branch$git_status$python$nodejs$aws$cmd_duration$line_break$character"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = " "
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+
+[python]
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+
+[aws]
+# Shows the active AWS profile - handy to notice you're NOT on prod.
+format = '[$symbol($profile )(\($region\) )]($style)'
+symbol = "aws "
+
+[cmd_duration]
+min_time = 2000
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"

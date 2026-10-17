@@ -1,0 +1,47 @@
+# winget package IDs, one per line (verified with `winget show --id <id> -e` on 2026-10-17).
+# Lines starting with "#" are skipped. Prefix a line with "?" to mark it optional:
+# optional packages are only installed with `install.ps1 -All`.
+# Docker Desktop needs a company license above 250 employees - ask IT first (fallback: Docker Engine inside WSL).
+
+# Core
+Git.Git
+GitHub.cli
+Microsoft.PowerShell
+Microsoft.WindowsTerminal
+astral-sh.uv
+Python.Python.3.12
+OpenJS.NodeJS.LTS
+pnpm.pnpm
+Anthropic.ClaudeCode
+
+# Editors
+Anysphere.Cursor
+Microsoft.VisualStudioCode
+
+# CLI tools
+jqlang.jq
+MikeFarah.yq
+BurntSushi.ripgrep.MSVC
+sharkdp.fd
+sharkdp.bat
+junegunn.fzf
+eza-community.eza
+ajeetdsouza.zoxide
+Starship.Starship
+direnv.direnv
+JesseDuffield.lazygit
+Casey.Just
+Gitleaks.Gitleaks
+
+# Fonts (Nerd Font used by editor + terminal + starship icons)
+DEVCOM.JetBrainsMonoNerdFont
+
+# Cloud / data
+Amazon.AWSCLI
+PostgreSQL.PostgreSQL.16
+?dbeaver.dbeaver
+
+# Containers / API / local LLM  (ask IT before installing on a company machine)
+?Docker.DockerDesktop
+?Bruno.Bruno
+?Ollama.Ollama

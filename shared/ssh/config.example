@@ -1,0 +1,21 @@
+# ~/.ssh/config template. Copied only if ~/.ssh/config does not exist.
+# Keys themselves are NEVER in this repo - generate a fresh one per machine:
+#   ssh-keygen -t ed25519 -C "laptop-name"
+#   gh ssh-key add ~/.ssh/id_ed25519.pub --title "laptop-name"
+# Company hosts (IPs, bastions, usernames) belong only in the real ~/.ssh/config on the work machine.
+
+Host *
+  AddKeysToAgent yes
+  ServerAliveInterval 60
+  ServerAliveCountMax 3
+
+Host github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
+
+# Example of a dev VM entry (fill in on the machine, do not commit real values):
+# Host dev-vm
+#   HostName 10.x.x.x
+#   User me
+#   IdentityFile ~/.ssh/id_ed25519

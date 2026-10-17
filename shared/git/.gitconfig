@@ -1,0 +1,55 @@
+# Shared git config. NO identity, tokens or signing keys here:
+#   - name / email / signingkey      -> ~/.gitconfig.local      (created by scripts/apply, never committed)
+#   - work email for repos in ~/work -> ~/work/.gitconfig       (see shared/git/work.gitconfig.example)
+
+[include]
+	path = ~/.gitconfig.local
+
+[includeIf "gitdir:~/work/"]
+	path = ~/work/.gitconfig
+[includeIf "gitdir/i:C:/work/"]
+	path = ~/work/.gitconfig
+
+[init]
+	defaultBranch = main
+[core]
+	excludesfile = ~/.gitignore_global
+	autocrlf = input
+	longpaths = true
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+	default = current
+[fetch]
+	prune = true
+[rebase]
+	autoStash = true
+	autoSquash = true
+[rerere]
+	enabled = true
+[merge]
+	conflictstyle = zdiff3
+[diff]
+	algorithm = histogram
+	colorMoved = default
+[branch]
+	sort = -committerdate
+[column]
+	ui = auto
+[help]
+	autocorrect = prompt
+[alias]
+	st = status -sb
+	co = checkout
+	sw = switch
+	br = branch
+	ci = commit
+	amend = commit --amend --no-edit
+	unstage = restore --staged
+	last = log -1 HEAD --stat
+	lg = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(auto)%d%Creset %s %C(green)(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	recent = branch --sort=-committerdate --format='%(committerdate:relative)%09%(refname:short)'
+	wip = !git add -A && git commit -m wip --no-verify
+	undo = reset --soft HEAD~1
+	cleanup = !git branch --merged | grep -vE '^\\*|main|master|develop' | xargs -r git branch -d

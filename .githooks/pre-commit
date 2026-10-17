@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Blocks commits that contain secrets. Enabled by: git config core.hooksPath .githooks
+# (the install scripts do this). Emergency bypass: SKIP_GITLEAKS=1 git commit ...
+[ -n "${SKIP_GITLEAKS:-}" ] && exit 0
+
+GL="$(command -v gitleaks || true)"
+if [ -z "$GL" ]; then  # winget installs it here before PATH is refreshed
+  for p in "$LOCALAPPDATA"/Microsoft/WinGet/Packages/Gitleaks.Gitleaks_*/gitleaks.exe; do [ -x "$p" ] && GL="$p"; done
+fi
+if [ -z "$GL" ]; then
+  echo "pre-commit: gitleaks not installed - refusing to commit (winget install Gitleaks.Gitleaks / brew install gitleaks)" >&2
+  exit 1
+fi
+exec "$GL" git --pre-commit --staged --redact --no-banner

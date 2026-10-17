@@ -1,0 +1,4 @@
+# Put this at ~/work/.gitconfig and clone every company repo under ~/work/ (or C:/work/ on Windows).
+# Thanks to includeIf in ~/.gitconfig, commits there use the work identity automatically.
+[user]
+	email = YOUR_WORK_EMAIL

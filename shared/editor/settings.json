@@ -1,0 +1,70 @@
+{
+    // Shared by Cursor and VS Code (scripts/apply copies it to both).
+    // Keep machine-specific things (DB connections, absolute paths) OUT of this file.
+
+    "workbench.iconTheme": "vs-seti",
+    "workbench.colorTheme": "Default Dark Modern",
+
+    // ── Auto save ──────────────────────────────────────────
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+
+    // ── Readability & comfort ──────────────────────────────
+    "editor.fontSize": 14,
+    "editor.lineHeight": 1.6,
+    "editor.fontFamily": "'JetBrainsMono NF', 'JetBrainsMono Nerd Font', 'MesloLGL Nerd Font', Consolas, 'Courier New', monospace",
+    "editor.fontLigatures": true,
+    "editor.letterSpacing": 0.3,
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.smoothScrolling": true,
+    "editor.renderLineHighlight": "all",
+    "editor.renderWhitespace": "boundary",
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
+    "editor.stickyScroll.enabled": true,
+    "editor.linkedEditing": true,
+    "editor.padding.top": 8,
+    "editor.rulers": [88, 120],
+    "editor.minimap.enabled": false,
+
+    // ── Workbench comfort ──────────────────────────────────
+    "workbench.list.smoothScrolling": true,
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.tree.indent": 16,
+    "breadcrumbs.enabled": true,
+    "explorer.compactFolders": false,
+
+    // ── Python: ruff formats + organizes imports on save ──
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports.ruff": "explicit",
+            "source.fixAll.ruff": "explicit"
+        }
+    },
+
+    // ── Integrated terminal ────────────────────────────────
+    // Windows: Git Bash by default (switch to "PowerShell" if the company image prefers it).
+    "terminal.integrated.profiles.windows": {
+        "Git Bash": {
+            "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "icon": "terminal-bash"
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "terminal.integrated.fontFamily": "'JetBrainsMono NFM', 'JetBrainsMono Nerd Font Mono', 'MesloLGL Nerd Font', monospace",
+    "terminal.integrated.fontSize": 13,
+    "terminal.integrated.smoothScrolling": true,
+
+    // ── Git ────────────────────────────────────────────────
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.pruneOnFetch": true,
+
+    "claudeCode.hideOnboarding": true,
+    "telemetry.telemetryLevel": "off"
+}

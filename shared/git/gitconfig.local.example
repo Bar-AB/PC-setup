@@ -1,0 +1,9 @@
+# Copied to ~/.gitconfig.local by scripts/apply (only if it does not exist yet). NEVER commit the real one.
+[user]
+	name = YOUR NAME
+	email = YOUR_PERSONAL_EMAIL
+#	signingkey = ~/.ssh/id_ed25519.pub
+#[gpg]
+#	format = ssh
+#[commit]
+#	gpgsign = true

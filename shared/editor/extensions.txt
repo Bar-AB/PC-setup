@@ -1,0 +1,32 @@
+# One extension ID per line. Installed into Cursor and/or VS Code by scripts/apply.
+# Lines starting with "#" are ignored. Add "@version" to pin (e.g. eamodio.gitlens@19.4.0).
+# Cursor uses Open VSX: a few Microsoft extensions are missing there (Cursor ships its own
+# forks: anysphere.cursorpyright, anysphere.remote-*, microsoft.cursor-pgsql). The apply script
+# just reports what fails to install, it does not stop.
+
+# AI
+anthropic.claude-code
+
+# Python
+ms-python.python
+ms-python.debugpy
+ms-python.mypy-type-checker
+charliermarsh.ruff
+ms-toolsai.jupyter
+
+# Data / cloud / containers
+amazonwebservices.aws-toolkit-vscode
+ms-azuretools.vscode-docker
+ms-azuretools.vscode-containers
+
+# Git
+eamodio.gitlens
+
+# Quality of life
+usernamehw.errorlens
+redhat.vscode-yaml
+tamasfe.even-better-toml
+humao.rest-client
+yzhang.markdown-all-in-one
+mechatroner.rainbow-csv
+streetsidesoftware.code-spell-checker
